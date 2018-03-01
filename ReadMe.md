@@ -10,15 +10,15 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./model.png "Model"
-[image2]: ./data_plot.png "Data Visual"
-[image3]: ./data_plot2.png "Data Visual"
-[image4]: ./data/1.jpg "Training Data"
-[image5]: ./data/2.jpg "Training Data"
-[image6]: ./data/3.jpg "Training Data"
-[image7]: ./data/4.jpg "Training Data"
-[image8]: ./data/5.jpg "Training Data"
-[image9]: ./data/6.jpg "Training Data"
+[image1]: ./model.PNG "Model"
+[image2]: ./data_plot.PNG "Data Visual"
+[image3]: ./data_plot2.PNG "Data Visual"
+[image4]: ./1.jpg "Training Data"
+[image5]: ./2.jpg "Training Data"
+[image6]: ./3.jpg "Training Data"
+[image7]: ./4.jpg "Training Data"
+[image8]: ./5.jpg "Training Data"
+[image9]: ./6.jpg "Training Data"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -31,15 +31,16 @@ The goals / steps of this project are the following:
 My project includes the following files:
 * model.py : containing the script to create and train the model
 * drive.py : for driving the car in autonomous mode (not modified ) ,already provided by Udacity Team
-* model.h5 : containing a trained convolution neural network model
-* writeup.md  summarizing the results
-* output.mp4 : video of track one with one lap of autonomous driving 
+* model.h5 : trained convolution neural network model
+* output.mp4 : video of track one with one lap of autonomous driving.
+* top_output.mp4 : Top view of car driving on track , to help visulaize the bheaviour of car.
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing command
 ```sh
 python drive.py model.h5
 ```
+Note : drive.py have to be modified to reduce the speed factor depending on the workstation we are testing on. In-Case of low end model modify line 49 `set_speed = 9` set value to 4 from 9.
 
 #### 3. Submission code is usable and readable
 
@@ -52,13 +53,11 @@ The file shows the pipeline I used for training and validating the model, and it
 
 I choose to use NVEDIA model as base model for my arichitecture after going through udacity classroom . 
 
-My model layer starts with Cropping layer to crop the image from top and bottom, as after visualization of the images found that data at top contians horizon and it's 
-not proividing much insights and bottom of the image contained some portion of car itself. I thought of adding this under keras layer so the same pre-processing 
-need not to added in drive.py and its done by model when real data is fed to it through drive.py
+My model layer starts with Cropping layer to crop the image from top and bottom, as after visualization of the images found that data at top contians horizon and it's not proividing much insights and bottom of the image contained some portion of car itself. I thought of adding this under keras layer so the same pre-processing need not to added in drive.py and its done by model when real data is fed to it through drive.py
 
 This was followed by Lambda layer for normalization , where the data was normalized between  -0.5 to 0.5 using equation `(x / 225.0) -0.5`
 
-This was followed by 6 convolutional layers with filters of 5x5 , followed by 3x3 filter and depths ranging from 24 to 64, this is kept as per the NVEDIA model. Used 'RELU' as activation function across CNN layers to introduce non-linerarity .
+This was followed by 6 convolutional layers with filters of 5x5 , followed by 3x3 filter and depths ranging from 24 to 64, this is kept as per the NVEDIA model. Used 'ELU' as activation function across CNN layers to introduce non-linerarity .
 
 This was followed by FLATTENING and 3 Fully Connected Layers , which is followed by single output layer.
 Below is the model summary captured using command `model.summary()`
@@ -67,7 +66,7 @@ Below is the model summary captured using command `model.summary()`
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains 3 dropout layers in order to reduce overfitting (model.py lines 133,137,148). 
+The model contains 2 dropout layers in order to reduce overfitting (model.py lines 133,137,148). 
 
 Data was augmented so that no stearing angle is dominating , this alos helped overfitting.
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 52). 
@@ -75,8 +74,8 @@ The model was tested by running it through the simulator and ensuring that the v
 
 #### 3. Model parameter tuning
 
-*The model used an adam optimizer, so the learning rate was not tuned manually
-`model.compile(loss='mse', optimizer='adam')` (model.py line 156).
+*The model used an nadam optimizer, so the learning rate need not be tunned and is taken care by optimizer
+`model.compile(loss='mse', optimizer='nadam')` (model.py line 156).
 
 *Added checkpoints for saving best model out of the epochs run 
  `ModelCheckpoint(model_file, monitor='val_loss', verbose=0, save_best_only=True, save_weights_only=False, mode='auto', period=1)` (model.py line 161 ).
