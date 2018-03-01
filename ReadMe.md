@@ -115,14 +115,14 @@ Also changed brightness of center images so to reduce over-fitting and train bet
 
 `Total Number of Samples : 97808`
 
-1   |  2 
------------- | -------------
- | ![alt text][image3]
+
+![alt text][image3]
 
 After this whole data was distributed to training and validation set , below is the summary
 
-`No. of Train Samples: 78246
-No. of Validation Samples: 19562`
+`No. of Train Samples: 78246`
+
+`No. of Validation Samples: 19562`
 
 After this i trained the model keeping `Batch Size : 126` and number of  `epochs as 20` . I had already introduced checkpoint and early stopping mechanism in case validation loss increased rather and reducing. So my model trained for `15 epochs` instead.
 Below are the logs printed 
@@ -158,3 +158,7 @@ Below are the logs printed
 `Epoch 15/20 78246/78246 [==============================] - 178s - loss: 0.0126 - val_loss: 0.0141`
 
 `......Training Completed........`
+
+
+#### Note : 
+Have added extra file to the folder with name Top_View_Track1.mp4 , this file is the video recording of the screen itslef which has full view of simulator . It can be viewed in case you feel in output video that car might me leaving the track. But in reality its not leaving the track and is moving in desiginated area for driving. 
